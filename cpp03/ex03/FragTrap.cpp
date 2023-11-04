@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 16:45:52 by frmurcia          #+#    #+#             */
-/*   Updated: 2023/11/02 17:15:34 by frmurcia         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:55:43 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ FragTrap &FragTrap::operator = (FragTrap const &other) {
 FragTrap::~FragTrap(void) {
 	std::cout << "FragTrap " << name << " destructor called" << std::endl;
 }
-
+/*
 void	FragTrap::attack(const std::string& target) {
 	if (hitPoints > 0 && energyPoints > 0) {
 		std::cout << "FragTrap " << name << " attacks " << target;
@@ -55,7 +55,7 @@ void	FragTrap::attack(const std::string& target) {
 	else {
 		std::cout << name << " can't attack because they have no hit points or energy!" << std::endl;
 	}
-}
+}*/
 
 void FragTrap::highFivesGuys(void) {
     std::cout << "FragTrap " << name << " says: 'Give me a high five, guys!'" << std::endl;

@@ -6,12 +6,13 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:05:54 by frmurcia          #+#    #+#             */
-/*   Updated: 2023/11/02 19:20:23 by frmurcia         ###   ########.fr       */
+/*   Updated: 2023/11/04 12:21:42 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <iostream>
 #include "DiamondTrap.hpp"
 
+/*
 int main(void)
 {
     DiamondTrap p7("Player_7");
@@ -23,4 +24,10 @@ int main(void)
     p8.takeDamage(p7.getAttackDamage());
     p8.beRepaired(5);
     return (0);
+}*/
+
+int	main(void)
+{
+	DiamondTrap diamond;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:24:41 by frmurcia          #+#    #+#             */
-/*   Updated: 2023/11/02 17:15:38 by frmurcia         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:54:10 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 //Constructores
 ClapTrap::ClapTrap(void) {
+	std::cout <<"Default constructor for ClapTrap called" << std::endl;
 }
 
 ClapTrap::ClapTrap(std::string name) : name(name), hitPoints(10), energyPoints(10), attackDamage(0) {

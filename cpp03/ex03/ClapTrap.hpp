@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:21:07 by frmurcia          #+#    #+#             */
-/*   Updated: 2023/11/02 19:18:49 by frmurcia         ###   ########.fr       */
+/*   Updated: 2023/11/04 11:22:32 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ class	ClapTrap{
 		ClapTrap(const ClapTrap& other); // Constructor de copia
 		ClapTrap &operator = (ClapTrap const &other);
 		~ClapTrap();
+
+//		ClapTrap(std::string name, int hitPoints, int attackDamage);
 
 		void	attack(const std::string& target); 
 		void	takeDamage(unsigned int amount);

@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 16:45:43 by frmurcia          #+#    #+#             */
-/*   Updated: 2023/11/02 19:18:28 by frmurcia         ###   ########.fr       */
+/*   Updated: 2023/11/04 11:14:40 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class	FragTrap : virtual public ClapTrap {
 	   FragTrap& operator=(const FragTrap& other);
 	   ~FragTrap();
 	   
-	   void attack(const std::string& target);
+//	   void attack(const std::string& target);
 	   void highFivesGuys(void);
 };
 
