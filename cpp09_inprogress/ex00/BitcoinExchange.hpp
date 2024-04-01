@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:28:58 by frmurcia          #+#    #+#             */
-/*   Updated: 2024/03/21 19:31:06 by frmurcia         ###   ########.fr       */
+/*   Updated: 2024/03/30 19:41:14 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ class BitcoinExchange {
 		void 	processInputFile(const std::string& inputFilename, std::vector<BitcoinData>& bitcoinData);
 		~BitcoinExchange();
 		bool	isValidDateFormat(const std::string& date);
+		bool	isValidInputDelimiterconst(std::string& line, const char delimiter);
+		bool	isValidValue(const float amount);
 		bool	isFloat(const std::string& str);
 		bool	isPositive(const float& value);
 		bool	isLessThanMaxInt(const float& value);
 		float	getBitcoinValue(const std::string& date) const;
 		void    processBitcoinDatabase(const std::string& databaseFilename);
+		bool	isValidDataLine(const std::string& line);
+		bool	isValidBitcoinDatabaseLine(const std::string& line);
 
 	private :
 		std::map<std::string, float> bitcoinDatabase;
-//		void	loadBitcoinDatabase(const std::string& databaseFilename);
 };
-
 
 #endif // BITCOIN_EXCHANGE_HPP
