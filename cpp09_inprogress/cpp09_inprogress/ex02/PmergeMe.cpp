@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:33:07 by frmurcia          #+#    #+#             */
-/*   Updated: 2024/04/08 19:46:38 by frmurcia         ###   ########.fr       */
+/*   Updated: 2024/04/10 18:56:27 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ PmergeMe::PmergeMe() {
 PmergeMe::~PmergeMe() {
 }
 
-std::list<int> PmergeMe::parseInputToList(const std::string& input) {//Metemos un string input en una lista de enteros
+std::list<int> PmergeMe::parseInputToList(std::string& input) {//Metemos un string input en una lista de enteros
 	std::list<int> result;
 	std::istringstream iss(input);
 	int	num;
@@ -27,10 +27,26 @@ std::list<int> PmergeMe::parseInputToList(const std::string& input) {//Metemos u
 		if (num >= 0)
 			result.push_back(num);
 		else
-			throw std::runtime_error("Negatives are not allowed");
+			std::cerr << "Negatives are not allowed" << std::endl;
 	}
-	if (!iss.eof())
-		throw std::runtime_error("Invalid expression");
+	if (!iss.eof()) {
+		std::cerr << "Invalid expression" << std::endl;
+	}
+	return (result);
+}
+
+std::vector<int> PmergeMe::parseInputToVector(std::string& input) {
+	std::vector<int> result;
+	int	num;
+	while (iss >> num) {
+		if (num >= 0)
+			result.push_back(num);
+		else
+			std::cerr << "Negatives are not allowed" << std::endl;
+	}
+	(!iss.eof()) {
+		std::cerr << "Invalid expression" << std::endl;
+	}
 	return (result);
 }
 
@@ -39,7 +55,7 @@ std::list<int> PmergeMe::parseInputToList(const std::string& input) {//Metemos u
  * Recibe la lista mencionada y un entero positivo que dira en cuantas subsecuencias lo vamos a dividir
  * Nos retornara una lista de listas: std::list<std::list<int>>
  * ******/ 
-std::list<std::list<int> > PmergeMe::splitIntoSubsets(std::list<int>& elements, size_t numSubsets) {
+std::list<std::list<int> > PmergeMe::splitIntoSubsequences(std::list<int>& elements, size_t numSubsets) {
 	std::list<std::list<int> > subsets;//Llamamos subsets a la lista de listas, de momento vacia
 
 	size_t	subsetSize = elements.size() / numSubsets;//Calculamos el tamano de cada subset
@@ -48,8 +64,8 @@ std::list<std::list<int> > PmergeMe::splitIntoSubsets(std::list<int>& elements, 
 	size_t	remainingElements = elements.size() % numSubsets;//Y tambien tenemos el numero de elementos que sobran para el ultimo
 
 	for (size_t i = 0; i < numSubsets; ++i) { //iteramos numero de subconjuntos
-		size_t	subsetLength = subsetSize;//se inicializa con el tamaño estandar de subset
-		if (remainingElements > 0) {//verificamos si hay elementos adicionales 
+		size_t	subsetLength = subsetSize;//se inicializa con el tamaño predeterminado de cada subconjunto, que es subsetSize.
+		if (remainingElements > 0) {//verificamos si hay elementos adicionales que no se han distribuido en los subconjuntos previos
 			subsetLength++;
 			remainingElements--;
 		}
@@ -116,5 +132,3 @@ std::list<int> PmergeMe::mergeSubsets(const std::list<int>& subset1, const std::
 
     return mergedSubset;
 }
-
-

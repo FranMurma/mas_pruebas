@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:33:27 by frmurcia          #+#    #+#             */
-/*   Updated: 2024/04/08 19:46:42 by frmurcia         ###   ########.fr       */
+/*   Updated: 2024/04/10 18:54:03 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,23 @@ int	main(int argc, char** argv) {
             input += " ";
         }
     }
-	PmergeMe pmerge;
-	std::list<int> sequenceList;
-	clock_t start;
-	
-	// Medir el tiempo de inicio
-	try {
 
-//		PmergeMe pmerge;
-		// Convertir la entrada en una lista de enteros
-		sequenceList = pmerge.parseInputToList(input);
-		std::cout << "Before: ";
-		start = clock();
-		std::list<int>::const_iterator it;
-		for (it = sequenceList.begin(); it != sequenceList.end(); ++it) {
-			std::cout << *it << " ";
-		}
-		std::cout << std::endl;
-	} catch (const std::runtime_error& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-        return 1; // Detener la ejecución del programa
-    }
+	// Medir el tiempo de inicio
+
+	PmergeMe pmerge;
+	// Convertir la entrada en una lista de enteros
+	std::list<int> sequenceList = pmerge.parseInputToList(input);
+	std::cout << "Before: ";
+	clock_t start = clock();
+	std::list<int>::const_iterator it;
+	for (it = sequenceList.begin(); it != sequenceList.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+	
 
     size_t numSubsets = 2; // Definir el número de subconjuntos para la prueba
-    std::list<std::list<int> > subsets = pmerge.splitIntoSubsets(sequenceList, numSubsets);
+    std::list<std::list<int> > subsets = pmerge.splitIntoSubsequences(sequenceList, numSubsets);
 
     std::list<std::list<int> >::iterator itSubset;
     for (itSubset = subsets.begin(); itSubset != subsets.end(); ++itSubset) {
@@ -69,7 +62,7 @@ int	main(int argc, char** argv) {
 	}
 
 	// Imprimir la última lista ordenada
-	std::cout << "\nAfter: ";
+	std::cout << "\nAfter:";
 	for (std::list<int>::const_iterator itNum = mergedSequence.begin(); itNum != mergedSequence.end(); ++itNum) {
 		std::cout << *itNum << " ";
 	}

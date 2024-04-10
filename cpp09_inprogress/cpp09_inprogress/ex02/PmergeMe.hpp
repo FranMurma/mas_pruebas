@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:32:54 by frmurcia          #+#    #+#             */
-/*   Updated: 2024/04/08 19:46:40 by frmurcia         ###   ########.fr       */
+/*   Updated: 2024/04/10 18:51:57 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@ class	PmergeMe {
 		//Método para ordenar la secuencia de enteros positivos usando el algoritmo de merge-insert
 		void	sortSequence(std::vector<int>& sequence);
 
-		// Función para convertir la entrada en una lista de enteros
-		std::list<int> parseInputToList(const std::string& input);
-
+		// Función para convertir la entrada en una lista de enteros (lista // vectores)
+		std::list<int> parseInputToList(std::string& input);
 		// Función para convertir la entrada en un vector de enteros
 		std::vector<int> parseInputToVector(std::string& input);
 
 		// Función para dividir la lista de entrada en chunks
-		std::list<std::list<int> > splitIntoSubsets(std::list<int>& elements, size_t numSubsets);
+		std::list<std::list<int> > splitIntoSubsequences(std::list<int>& elements, size_t numSubsets);
 
 		//Ordenacion de cada una de las subsecuencias por separado
 		void	insertionSort(std::list<int>& subsequence); 
