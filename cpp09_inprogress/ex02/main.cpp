@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:03:38 by frmurcia          #+#    #+#             */
-/*   Updated: 2024/04/13 20:19:54 by frmurcia         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:47:28 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,64 +24,53 @@ int main(int argc, char** argv) {
     }
 
     std::string input;
+	std::cout << std::endl << "Before: ";
     for (int i = 1; i < argc; ++i) {
         input += argv[i];
         if (i < argc - 1) {
             input += " ";
         }
     }
+	std::cout << input << std::endl;
 
     PmergeMe pmerge;
 
-    // Convertir la entrada en una lista de enteros
-    std::list<int> sequenceList = pmerge.parseInputToList(input);
-    std::vector<int> sequenceVector = pmerge.parseInputToVector(input);
-
-    // Procesamiento con listas
-
-	std::cout << "Before: ";
-	for (std::list<int>::const_iterator it = sequenceList.begin(); it != sequenceList.end(); ++it)
-		std::cout << *it << " ";
-    std::cout << std::endl;
-	// Definir el número de subconjuntos para la prueba
-	size_t numSubsets = 1;
-	if (argc < 20)
-		numSubsets = 2;
-	else if (argc < 100)
-		numSubsets = 4;
-	else
+	size_t numSubsets;
+	if (argc > 500)
 		numSubsets = 7;
+	if (argc > 100)
+		numSubsets = 4;
+	else if (argc > 20)
+		numSubsets = 2;
+	else
+		numSubsets = 1;
 
-
-    clock_t start = clock();
-
+			//CON LISTAS
+    clock_t listTime[2];
+	listTime[0] = clock();// Ponemos a 0 el cronometro para las listas
+	std::list<int> sequenceList = pmerge.parseInputToList(input);//El parseo y meter el input en una std::list<int>
     // Dividir la secuencia en subconjuntos y ordenarlos
     std::list<std::list<int> > subsetsList = pmerge.splitIntoSubsequences(sequenceList, numSubsets);
     for (std::list<std::list<int> >::iterator itSubset = subsetsList.begin(); itSubset != subsetsList.end(); ++itSubset) {
         pmerge.insertionSort(*itSubset);
     }
-
     // Fusionar los subconjuntos ordenados dos a dos
-    std::list<int> mergedSequenceList;
-    std::list<std::list<int> >::iterator itMergeSubsetList = subsetsList.begin();
-    while (itMergeSubsetList != subsetsList.end()) {
-        mergedSequenceList = pmerge.mergeSubsets(mergedSequenceList, *itMergeSubsetList);
-        ++itMergeSubsetList;
-    }
+	std::list<int> mergedList = pmerge.mergeAllSubsets(subsetsList);
 
-    clock_t end = clock();
-    double durationList = (double)(end - start) / CLOCKS_PER_SEC * 1000; // Convertir a milisegundos
+    listTime[1] = clock();
 
-    std::cout << "After: ";
-    for (std::list<int>::const_iterator itNum = mergedSequenceList.begin(); itNum != mergedSequenceList.end(); ++itNum) {
-        std::cout << *itNum << " ";
-    }
-    std::cout << std::endl;
+    double durationList = (static_cast<double>(listTime[1] - listTime[0]) / CLOCKS_PER_SEC) * 1000;
+
     std::cout << "Time to process a range of " << argc - 1 << " elements with std::list: " << durationList << " ms" << std::endl;
 
-    // Procesamiento con vectores
 
-    start = clock();
+
+    // PROCESAMIENTO CON VECTORES
+	clock_t vectorTime[2];
+	vectorTime[0]= clock();
+
+	//Creamos el contenedor de vectores y parseamos
+	std::vector<int> sequenceVector = pmerge.parseInputToVector(input);
 
     // Dividir la secuencia en subconjuntos y ordenarlos
     std::vector<std::vector<int> > subsetsVector = pmerge.splitIntoSubsequences(sequenceVector, numSubsets);
@@ -90,23 +79,17 @@ int main(int argc, char** argv) {
     }
 
     // Fusionar los subconjuntos ordenados dos a dos
-    std::vector<int> mergedSequenceVector;
-    std::vector<std::vector<int> >::iterator itMergeSubsetVector = subsetsVector.begin();
-    while (itMergeSubsetVector != subsetsVector.end()) {
-        mergedSequenceVector = pmerge.mergeVectorSubsets(mergedSequenceVector, *itMergeSubsetVector);
-        ++itMergeSubsetVector;
-    }
+	std::vector<int> mergedVector = pmerge.mergeAllVectorSubsets(subsetsVector);
 
-    end = clock();
-    double durationVector = (double)(end - start) / CLOCKS_PER_SEC * 1000; // Convertir a milisegundos
+	vectorTime[1] = clock();
+    double durationVector = (static_cast<double>(vectorTime[1] - vectorTime[0]) / CLOCKS_PER_SEC) * 1000000;
 
-/*    std::cout << "After: ";
-    for (std::vector<int>::const_iterator itNum = mergedSequenceVector.begin(); itNum != mergedSequenceVector.end(); ++itNum) {
-        std::cout << *itNum << " ";
-    }
-    std::cout << std::endl;*/
     std::cout << "Time to process a range of " << argc - 1 << " elements with std::vector: " << durationVector << " ms" << std::endl;
+	if (areEqual(mergedList, mergedVector))
+		std::cout << "Both sorted sequences are identical." << std::endl;
+	else
+		std::cerr << "Warning: Sorted sequences are not identical!" << std::endl;
 
-    return 0;
+	return (0);
 }
 

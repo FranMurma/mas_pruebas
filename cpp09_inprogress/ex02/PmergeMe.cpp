@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:33:07 by frmurcia          #+#    #+#             */
-/*   Updated: 2024/04/13 20:19:59 by frmurcia         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:47:23 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ std::list<int> PmergeMe::parseInputToList(std::string& input) {//Metemos un stri
 			if (num >= 0)
 				result.push_back(num);
 			else
-				throw std::invalid_argument("Negatives are not allowed in the list container");
+				throw std::invalid_argument("Negatives are not allowed in the container");
 		}
 		if (!iss.eof())
-			throw std::invalid_argument("Invalid expression for list container");
+			throw std::invalid_argument("Invalid expression for a int container");
 	}
 	catch (const std::invalid_argument& e) {
 		std::cerr << e.what() << std::endl;
 		result.clear(); // Limpiar el vector en caso de error
+		std::exit (1);
 	}
 	return (result);
 }
@@ -49,10 +50,10 @@ std::vector<int> PmergeMe::parseInputToVector(std::string& input) {
 			if (num >= 0)
 				result.push_back(num);
 			else
-				throw std::invalid_argument("Negatives are not allowed in the vector container");
+				throw std::invalid_argument("Negatives are not allowed in the container");
 		}
 	if (!iss.eof())
-		throw std::invalid_argument("Invalid expression for vector container");
+		throw std::invalid_argument("Invalid expression for a int container");
 	}
 	catch (const std::invalid_argument& e) {
 		std::cerr << e.what() << std::endl;
@@ -88,7 +89,7 @@ std::list<std::list<int> > PmergeMe::splitIntoSubsequences(std::list<int>& eleme
 				elements.pop_front();//// Elimina el elemento agregado de la lista de entrada
 			}
 		}
-		subsets.push_back(subset);// Agrega el subconjunto creado al vector de subconjuntos
+		subsets.push_back(subset);// Agrega el subconjunto creado a la lista de listas
 	}
 	return (subsets);
 }
@@ -135,13 +136,22 @@ void 	PmergeMe::insertionVectorSort(std::vector<int>& subset) {
 	for (size_t i = 1; i < subset.size(); ++i) {
 		int currentValue = subset[i]; // El valor actual que estamos considerando
 		size_t j = i; // Índice para recorrer hacia atrás
-
-		// Recorremos hacia atrás para encontrar la posición correcta para insertar currentValue
-		while (j > 0 && subset[j - 1] > currentValue) {
-			subset[j] = subset[j - 1]; // Desplazamos los elementos hacia adelante
-			--j; // Movemos el índice hacia atrás
+		// Calcular la posición ideal para el elemento actual
+		size_t idealPosition = 0;
+		while (idealPosition < i && subset[idealPosition] <= currentValue) {
+			++idealPosition;
 		}
-		
+		// Determinar si es más eficiente mover el elemento hacia adelante o hacia atrás
+		if (i - idealPosition < idealPosition) {
+			subset[j] = subset[j - 1]; // Desplazamos los elementos hacia adelante
+			--j;
+		}
+		else {
+			while (j > idealPosition) {
+				subset[j] = subset[j - 1]; // Desplazamos los elementos hacia atrás
+				--j; // Movemos el índice hacia atrás
+			}
+		}
 		subset[j] = currentValue; // Insertamos el valor en la posición correcta
 	}
 }
@@ -151,35 +161,34 @@ void 	PmergeMe::insertionVectorSort(std::vector<int>& subset) {
  *
  * *****/
 std::list<int> PmergeMe::mergeSubsets(const std::list<int>& subset1, const std::list<int>& subset2) {
-    std::list<int> mergedSubset;
+	std::list<int> mergedSubset;
 
-    // Obtener iteradores para recorrer los dos subconjuntos ordenados
-    std::list<int>::const_iterator it1 = subset1.begin();
-    std::list<int>::const_iterator it2 = subset2.begin();
+// Obtener iteradores para recorrer los dos subconjuntos ordenados
+	std::list<int>::const_iterator it1 = subset1.begin();
+	std::list<int>::const_iterator it2 = subset2.begin();
 
-    // Combinar los dos subconjuntos ordenados en uno solo
-    while (it1 != subset1.end() && it2 != subset2.end()) {
-        if (*it1 < *it2) {
-            mergedSubset.push_back(*it1);
-            ++it1;
-        } else {
-            mergedSubset.push_back(*it2);
-            ++it2;
-        }
-    }
+	// Combinar los dos subconjuntos ordenados en uno solo
+	while (it1 != subset1.end() && it2 != subset2.end()) {
+		if (*it1 < *it2) {
+			mergedSubset.push_back(*it1);
+			++it1;
+		}
+		else {
+			mergedSubset.push_back(*it2);
+			++it2;
+		}
+	}
 
     // Agregar los elementos restantes de cualquier subconjunto que no se haya agotado
-    while (it1 != subset1.end()) {
-        mergedSubset.push_back(*it1);
-        ++it1;
-    }
-
-    while (it2 != subset2.end()) {
-        mergedSubset.push_back(*it2);
-        ++it2;
-    }
-
-    return mergedSubset;
+	while (it1 != subset1.end()) {
+		mergedSubset.push_back(*it1);
+		++it1;
+	}
+	while (it2 != subset2.end()) {
+		mergedSubset.push_back(*it2);
+		++it2;
+	}
+	return (mergedSubset);
 }
 
 std::vector<int> PmergeMe::mergeVectorSubsets(const std::vector<int>& subset1, const std::vector<int>& subset2) {
@@ -245,4 +254,23 @@ std::vector<int> PmergeMe::mergeAllVectorSubsets(std::vector<std::vector<int> >&
     }
     // Al final, queda un solo subconjunto que contiene todos los elementos fusionados
     return subsets.front();
+}
+
+bool	areEqual(const std::list<int>& list1, const std::vector<int>& vec2) {
+	if (list1.size() != vec2.size()) {
+		return (false);
+	}
+	std::cout << "After: ";
+	std::list<int>::const_iterator itList = list1.begin();
+	std::vector<int>::const_iterator itVec = vec2.begin();
+
+	while (itList != list1.end() && itVec != vec2.end()) {
+		std::cout << *itVec << " ";
+		if (*itList != *itVec)
+			return (false);
+		++itList;
+		++itVec;
+	}
+	std::cout << std::endl;
+	return (true);
 }

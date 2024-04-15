@@ -6,7 +6,7 @@
 /*   By: frmurcia <frmurcia@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:32:54 by frmurcia          #+#    #+#             */
-/*   Updated: 2024/04/13 13:08:10 by frmurcia         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:47:25 by frmurcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ class	PmergeMe {
 	public :
 		PmergeMe();
 		~PmergeMe();
+		PmergeMe(PmergeMe const& copy);
+		PmergeMe& operator=(PmergeMe const& copy);
+
 
 		//Método para ordenar la secuencia de enteros positivos usando el algoritmo de merge-insert
 		void	sortSequence(std::vector<int>& sequence);
@@ -49,11 +52,11 @@ class	PmergeMe {
 		std::list<int> mergeAllSubsets(std::list<std::list<int> >& subsets);
 		std::vector<int> mergeAllVectorSubsets(std::vector<std::vector<int> >& subsets);
 
+		//Usaremos esta funcion al final para comprobar que todos los elementos de la lista son exactamente iguales.
+//		bool	areEqual(const std::list<int>& list1, const std::vector<int>& vec2);
 
-	private :
-		// Función privada para dividir la secuencia en subconjuntos
-		template <typename Container>
-		std::vector<Container> divideIntoSubsets(Container& data, size_t subsetSize);
 };
+
+bool    areEqual(const std::list<int>& list1, const std::vector<int>& vec2);
 
 #endif // PMERGEME_HPP
